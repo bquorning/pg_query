@@ -9,9 +9,10 @@ workdir = Dir.pwd
 libdir = File.join(workdir, 'libpg_query-' + LIB_PG_QUERY_TAG)
 gemdir = File.join(__dir__, '../..')
 libfile = libdir + '/libpg_query.a'
+target_file_path = "#{workdir}/libpg_query.tar.gz"
 
-unless File.exist?("#{workdir}/libpg_query.tar.gz")
-  File.open("#{workdir}/libpg_query.tar.gz", 'wb') do |target_file|
+unless File.exist?(target_file_path)
+  File.open(target_file_path, 'wb') do |target_file|
     open('https://codeload.github.com/lfittl/libpg_query/tar.gz/' + LIB_PG_QUERY_TAG, 'rb') do |read_file|
       target_file.write(read_file.read)
     end
