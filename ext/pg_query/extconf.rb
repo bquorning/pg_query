@@ -1,9 +1,11 @@
 # rubocop:disable Style/GlobalVars
 
+require 'digest'
 require 'mkmf'
 require 'open-uri'
 
 LIB_PG_QUERY_TAG = '10-1.0.1'.freeze
+LIB_PG_QUERY_DIGEST = 'd028b3b309138a008aebc2d6bd14b119'.freeze
 
 workdir = Dir.pwd
 libdir = File.join(workdir, 'libpg_query-' + LIB_PG_QUERY_TAG)
@@ -17,6 +19,10 @@ unless File.exist?(target_file_path)
       target_file.write(read_file.read)
     end
   end
+end
+
+unless Digest::MD5.file(target_file_path).hexdigest == LIB_PG_QUERY_DIGEST
+  raise("MD5 digest of downloaded file #{target_file_path} is wrong.")
 end
 
 unless Dir.exist?(libdir)
